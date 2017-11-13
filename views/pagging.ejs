@@ -1,0 +1,22 @@
+<nav aria-label="Page navigation" class="pull-right">
+  <ul class="pagination pagination-sm">
+    <% if( pagging.page ){ %>
+      <li><a href="<%= current_url %>?page=0" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+    <% }else{ %>
+      <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+    <% } %>
+
+    <% m = 4 %>
+    <% if( pagging.page <= m ){ page_start = 1 }else{ page_start = pagging.page - (m-1) } %>
+    <% if( pagging.page + m < pagging.pages ){ page_end = pagging.page + (m+1) }else{ page_end = pagging.pages }%>
+    <% for(i=page_start; i <= page_end; i++ ){ %>
+      <li class="<%= pagging.page == i-1 ? 'active' : '' %>"><a href="<%= current_url %>?page=<%= i-1 %>"><%= i %></a></li>
+    <% } %>
+
+    <% if( pagging.page == pagging.pages-1 || pagging.pages == 0 ){ %>
+      <li class="disabled"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+    <% }else{ %>
+      <li><a href="<%= current_url %>?page=<%= pagging.pages-1 %>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+    <% } %>
+  </ul>
+</nav>

@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-sm-12">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-left" style="width:15%"></th>
+        <th class="text-left" style=""></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if( posts.length ){ %>
+        <% posts.forEach((post, i) => { %>
+          <tr>
+            <td class="text-left"><img class="img-thumbnail" src="<%= getPicture(post.picture) %>"/></td>
+            <td class="text-left">
+              <h4><a href="/posts/<%= post._id %>"><%= post.title %></a></h4>
+              <%= post.description %><br/>
+              <% post.tags.split(',').forEach((tag) => { %>
+                <span class="label label-default"><%= tag %></span>
+              <% }) %><br/>
+              <small>
+                เปิดดู <i class="fa fa-eye fa-fw"></i> <%= post.view %> ครั้ง,
+                โพสเมื่อ <%= moment(post.created_at).format('D MMMM YYYY') %>,
+                <%= moment(post.created_at).fromNow() %>
+              </small>
+            </td>
+          </tr>
+        <% }) %>
+      <% }else{ %>
+        <tr>
+          <td class="text-center">ไม่มีข้อมูล</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+  <%- include('../pagging.ejs'); %>
+  </div>
+</div>

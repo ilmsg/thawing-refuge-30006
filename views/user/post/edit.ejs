@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h3><%= uri.indexOf('create') != -1 ? 'สร้างโพสใหม่' : 'แก้ไขโพส' %></h3>
+  </div>
+  <div class="col-sm-6">
+    <a href="/users/posts" class="btn btn-sm btn-success pull-right">
+      <i class="fa fa-list fa-fw"></i> รายการโพส
+    </a>
+  </div>
+</div><hr/>
+
+<div class="row">
+  <div class="col-sm-12">
+    <form class="form-horizontal" method="post" action="/users/posts/<%= post._id %>" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="inputTitle" class="col-sm-2 control-label">เรื่อง</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="inputTitle" name="title" value="<%= post.title %>" placeholder="เรื่อง"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputDescription" class="col-sm-2 control-label">รายละเอียด</label>
+        <div class="col-sm-10">
+          <textarea rows="2" class="form-control" id="inputDescription" name="description"><%= post.description %></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputContent" class="col-sm-2 control-label">เนื้อหา</label>
+        <div class="col-sm-10">
+          <textarea rows="2" class="form-control" id="inputContent" name="content"><%= post.content %></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputTag" class="col-sm-2 control-label">แท็ก</label>
+        <div class="col-sm-10">
+          <input class="form-control" id="inputTag" name="tag" value="<%= post.tags %>" placeholder="แท็ก"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPicture" class="col-sm-2 control-label">ไพล์รูปภาพ</label>
+        <div class="col-sm-2">
+          <input type="file" class="form-control" accept="image/jpeg,image/x-png" id="inputPicture" name="picture" placeholder="ไพล์รูปภาพ">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-2">
+          <img id="imgPreview" src="<%= getPicture(post.picture) %>" class="img-thumbnail"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save fa-fw"></i> บันทึก</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

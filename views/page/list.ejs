@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-sm-12">
+
+    <%- include('../pagging.ejs'); %>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-left" style="width:15%"></th>
+          <th class="text-left" style=""></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% pages.forEach((page, i) => { %>
+          <tr>
+            <td class="text-left"><img class="img-thumbnail" src="<%= getPicture(page.picture) %>"/></td>
+            <td class="text-left">
+              <h4><a href="/pages/<%= page._id %>"><%= page.title %></a></h4>
+              <%= page.description %><br/>
+              <% page.tags.split(',').forEach((tag) => { %>
+                <span class="label label-default"><%= tag %></span>
+              <% }) %><br/>
+              <small>
+                เปิดดู <i class="fa fa-eye fa-fw"></i> <%= page.view %> ครั้ง,
+                โพสเมื่อ <%= moment(page.created_at).format('D MMMM YYYY') %>,
+                <%= moment(page.created_at).fromNow() %>
+              </small>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <%- include('../pagging.ejs'); %>
+
+  </div>
+</div>

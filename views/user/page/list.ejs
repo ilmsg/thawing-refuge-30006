@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h3>รายการหน้า</h3>
+  </div>
+  <div class="col-sm-6">
+    <a href="/users/pages/create" class="btn btn-sm btn-success pull-right">
+      <i class="fa fa-plus fa-fw"></i> สร้างหน้าใหม่
+    </a>
+  </div>
+</div><hr/>
+
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center" style="width:5%">ลำดับ</th>
+          <th class="text-center" style="width:10%">รูปภาพ</th>
+          <th class="text-left" style="">เรื่อง</th>
+          <th class="text-left" style="">รายละเอียด</th>
+          <th class="text-center" style="">วิว</th>
+          <th class="text-center" style="">สร้างเมื่อ</th>
+          <th class="text-center" style="width:5%">แก้ไข</th>
+          <th class="text-center" style="width:5%">ลบ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% pages.forEach((page, i) => { %>
+          <tr>
+            <td class="text-center"><%= i+1 %></td>
+            <td class="text-center"><img src="<%= getPicture(page.picture) %>" class="img-thumbnail"/></td>
+            <td class="text-left"><%= page.title %></td>
+            <td class="text-left">
+              <%= page.description %><br/>
+              <% page.tags.split(',').forEach((tag) => { %>
+                <span class="label label-default"><%= tag %></span>
+              <% }) %>
+            </td>
+            <td class="text-center"><%= page.view %></td>
+            <td class="text-center"><%= moment(page.created_at).format('DD MMMM YYYY') %></td>
+            <td class="text-center">
+              <a href="/users/pages/<%= page._id %>/edit" title="แก้ไข">
+                <i class="fa fa-edit fa-fw" style="color:orange"></i>
+              </a>
+            </td>
+            <td class="text-center">
+              <a href="/users/pages/<%= page._id %>/delete" title="ลบ">
+                <i class="fa fa-trash fa-fw" style="color:red"></i>
+              </a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
