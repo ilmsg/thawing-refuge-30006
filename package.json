@@ -38,6 +38,6 @@
     "xss": "^1.0.11"
   },
   "devDependencies": {
-    "faker": "^6.6.6"
+    "@faker-js/faker": "^6.1.1"
   }
 }
