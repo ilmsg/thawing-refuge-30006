@@ -12,6 +12,7 @@ const MongoStore = require('connect-mongo');
 const compression = require('compression');
 const flash = require('express-flash');
 const helmet = require('helmet')
+const socketio = require('socket.io');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -112,6 +113,6 @@ server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-const io = require('socket.io').listen(server);
+const io = socketio(server);
 
 module.exports = app;
