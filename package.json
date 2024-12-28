@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "dev": "export PORT=3002 && nodemon app.js",
-    "preinstall": "npm install pm2 -g",
     "start": "pm2 start --attach app.js"
   },
   "engines": {
