@@ -8,7 +8,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 const compression = require('compression');
 const flash = require('express-flash');
 const helmet = require('helmet')
@@ -54,7 +54,7 @@ app.use(session({
 	secret: 'keyboard cat',
 	resave: true,
 	saveUninitialized: true,
-	store: new MongoStore({ mongooseConnection: mongoose.connection })
+	store: new MongoStore({ mongoUrl: mongodb_uri })
 }));
 app.use(helmet());
 app.use(flash());
