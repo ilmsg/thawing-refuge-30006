@@ -9,12 +9,12 @@ const Page = require('../models/page')
 const Contact = require('../models/contact')
 
 router.get('/', async (req, res, next) => {
-  try{
+  try {
     const perPage = 10
     const page = Math.max(0, req.query.page || 0)
 
-    const count = await Post.find().count();
-    const posts = await Post.find().populate('picture user').limit(perPage).skip(perPage * page).sort({created_at: -1});
+    const count = await Post.find().countDocuments();
+    const posts = await Post.find().populate('picture user').limit(perPage).skip(perPage * page).sort({ created_at: -1 });
 
     res.locals.pagging = {};
     res.locals.pagging.page = page;
@@ -23,7 +23,7 @@ router.get('/', async (req, res, next) => {
     res.locals.posts = posts;
     res.locals.viewpage = 'index';
     res.render('layout');
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 });
@@ -49,19 +49,19 @@ router.get('/:yyyy/:mm/:dd', async (req, res, next) => {
 });
 
 router.get('/:yyyy/:mm', async (req, res, next) => {
-  try{
+  try {
     const perPage = 5
     const page = Math.max(0, req.query.page || 0)
 
     const startDate = moment([req.params.yyyy, req.params.mm - 1]);
     const endDate = moment(startDate).endOf('month');
 
-    const count = await Post.find({ created_at: { "$gte": startDate.toDate(), "$lt": endDate.toDate() } }).count();
+    const count = await Post.find({ created_at: { "$gte": startDate.toDate(), "$lt": endDate.toDate() } }).countDocuments();
     const posts = await Post.find({ created_at: { "$gte": startDate.toDate(), "$lt": endDate.toDate() } })
       .populate('picture user')
       .limit(perPage)
       .skip(perPage * page)
-      .sort({created_at: 1});
+      .sort({ created_at: 1 });
 
     res.locals.pagging = {
       page: page,
@@ -71,25 +71,25 @@ router.get('/:yyyy/:mm', async (req, res, next) => {
     res.locals.posts = posts;
     res.locals.viewpage = 'post/list';
     res.render('layout');
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 });
 
 router.get('/:yyyy', async (req, res, next) => {
-  try{
+  try {
     const perPage = 5
     const page = Math.max(0, req.query.page || 0)
 
     const startDate = moment([req.params.yyyy]);
     const endDate = moment(startDate).endOf('year');
 
-    const count = await Post.find({ created_at: {"$gte": startDate.toDate(),"$lt": endDate.toDate()} }).count();
-    const posts = await Post.find({ created_at: {"$gte": startDate.toDate(),"$lt": endDate.toDate()} })
+    const count = await Post.find({ created_at: { "$gte": startDate.toDate(), "$lt": endDate.toDate() } }).countDocuments();
+    const posts = await Post.find({ created_at: { "$gte": startDate.toDate(), "$lt": endDate.toDate() } })
       .populate('picture user')
       .limit(perPage)
       .skip(perPage * page)
-      .sort({created_at: 1});
+      .sort({ created_at: 1 });
 
     res.locals.pagging = {
       page: page,
@@ -99,7 +99,7 @@ router.get('/:yyyy', async (req, res, next) => {
     res.locals.posts = posts;
     res.locals.viewpage = 'post/list';
     res.render('layout');
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 });
@@ -110,7 +110,7 @@ router.get('/:yyyy', async (req, res, next) => {
 // });
 
 router.post('/contact', async (req, res, next) => {
-  try{
+  try {
     const email = req.body.email;
     const name = req.body.name;
     const message = req.body.message;
@@ -121,9 +121,9 @@ router.post('/contact', async (req, res, next) => {
     contact.message = message;
     await contact.save();
 
-    req.flash('info','ได้รับข้อความเรียบร้อยแล้ว. ทางเราจะรีบติดต่อกลับโดยเร็วที่สุดนะครับ');
+    req.flash('info', 'ได้รับข้อความเรียบร้อยแล้ว. ทางเราจะรีบติดต่อกลับโดยเร็วที่สุดนะครับ');
     res.redirect('back');
-  }catch(err){
+  } catch (err) {
     next(err);
   }
 });
