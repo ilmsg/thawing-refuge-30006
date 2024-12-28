@@ -13,6 +13,9 @@ const compression = require('compression');
 const flash = require('express-flash');
 const helmet = require('helmet')
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
