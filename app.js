@@ -21,7 +21,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 const mongodb_uri = process.env.MONGODB_URI || 'mongodb://localhost/blog';
-const mongodb_options = { useMongoClient: true };
+const mongodb_options = { };
 
 mongoose.connect(mongodb_uri, mongodb_options);
 mongoose.connection.on('error', (err) => { console.log(err) });
