@@ -113,7 +113,7 @@ router.get('/profile', helper.auth, async (req, res, next) => {
 
 router.post('/profile', helper.auth, async (req, res, next) => {
   try {
-    await User.update({
+    await User.updateOne({
       _id: req.session.user._id
     }, {
       '$set': {
