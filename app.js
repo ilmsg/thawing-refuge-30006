@@ -1,6 +1,5 @@
 
 const url = require('url');
-const http = require('http');
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -12,7 +11,6 @@ const MongoStore = require('connect-mongo');
 const compression = require('compression');
 const flash = require('express-flash');
 const helmet = require('helmet')
-const socketio = require('socket.io');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -21,11 +19,11 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 const mongodb_uri = process.env.MONGODB_URI;
-const mongodb_options = { };
+const mongodb_options = {};
 
 mongoose.connect(mongodb_uri, mongodb_options);
 mongoose.connection.on('error', (err) => { console.log(err) });
-mongoose.connection.on('open', (ref) => { console.log( 'Connected: ' + mongodb_uri ) })
+mongoose.connection.on('open', (ref) => { console.log('Connected: ' + mongodb_uri) })
 mongoose.connection.on('disconnected', () => { console.log('disconnected.') });
 
 const Archive = require('./models/archive');
@@ -59,7 +57,7 @@ app.use(session({
 }));
 app.use(helmet());
 app.use(flash());
-app.use(compression({level: 6}));
+app.use(compression({ level: 6 }));
 app.use(async (req, res, next) => {
 	const url_parts = url.parse(req.url, true);
 	res.locals.uri = url_parts.pathname;
@@ -74,45 +72,38 @@ app.use(async (req, res, next) => {
 	res.locals.moment = moment;
 	res.locals.user = req.session.user || '';
 
-	try{
-		res.locals.archives = await Archive.find().sort({slug: -1});
-		res.locals.pages = await Page.find().sort({order:1});
-		res.locals.latest_posts = await Post.find().limit(5).sort({created_at:1});
-	}catch(err){
+	try {
+		res.locals.archives = await Archive.find().sort({ slug: -1 });
+		res.locals.pages = await Page.find().sort({ order: 1 });
+		res.locals.latest_posts = await Post.find().limit(5).sort({ created_at: 1 });
+	} catch (err) {
 		return next(err);
 	}
 
-  return next();
+	return next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/posts', 					require('./routes/post'));
-app.use('/pages', 					require('./routes/page'));
-app.use('/users/contacts', 	helper.auth, require('./routes/user/contact'));
-app.use('/users/posts', 		helper.auth, require('./routes/user/post'));
-app.use('/users/pages', 		helper.auth, require('./routes/user/page'));
-app.use('/users', 					require('./routes/user/index'));
-app.use('/', 								require('./routes/index'));
+app.use('/posts', require('./routes/post'));
+app.use('/pages', require('./routes/page'));
+app.use('/users/contacts', helper.auth, require('./routes/user/contact'));
+app.use('/users/posts', helper.auth, require('./routes/user/post'));
+app.use('/users/pages', helper.auth, require('./routes/user/page'));
+app.use('/users', require('./routes/user/index'));
+app.use('/', require('./routes/index'));
 
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	const err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  res.status(err.status || 500);
-  res.render('error');
+	res.status(err.status || 500);
+	res.render('error');
 });
-
-const server = http.createServer(app);
-server.listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
-
-const io = socketio(server);
 
 module.exports = app;
