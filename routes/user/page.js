@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const mkdirp = require('mkdirp');
 const path = require('path');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const User      = require('../../models/user')
 const Post      = require('../../models/post')
